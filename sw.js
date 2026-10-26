@@ -50,13 +50,31 @@ self.addEventListener('activate', (evento) => {
   );
 });
 
+// Las letras de Google Fonts no cambian nunca: se guardan la primera vez
+// y después se usan desde la copia (así también andan sin internet)
+const FUENTES = ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
+
 // 3) Cada pedido de la app pasa por acá
 self.addEventListener('fetch', (evento) => {
   const pedido = evento.request;
+  const origen = new URL(pedido.url).origin;
 
-  // Solo nos metemos con lecturas (GET) de nuestro propio sitio.
+  if (pedido.method === 'GET' && FUENTES.includes(origen)) {
+    evento.respondWith(
+      caches.match(pedido).then((guardada) => guardada || fetch(pedido).then((respuesta) => {
+        if (respuesta.ok) {
+          const copia = respuesta.clone();
+          caches.open(CACHE).then((cache) => cache.put(pedido, copia));
+        }
+        return respuesta;
+      }))
+    );
+    return;
+  }
+
+  // Del resto, solo nos metemos con lecturas (GET) de nuestro propio sitio.
   // Lo demás (APIs externas, POST, etc.) sigue de largo como siempre.
-  if (pedido.method !== 'GET' || new URL(pedido.url).origin !== location.origin) return;
+  if (pedido.method !== 'GET' || origen !== location.origin) return;
 
   evento.respondWith(
     fetch(pedido, { cache: 'no-cache' }) // no-cache = preguntarle al servidor si hay algo nuevo

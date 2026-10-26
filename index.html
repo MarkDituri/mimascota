@@ -8,13 +8,18 @@
 
   <!-- PWA: estas líneas son las que hacen que se pueda instalar -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#04606d">
+  <meta name="theme-color" content="#362ec2">
   <link rel="icon" href="img/icono.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="miMascota">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+  <!-- Letras: Barlow (casi todo), Roboto (atajos y botones) y Montserrat (barra de abajo).
+       "crossorigin" deja que el service worker las guarde para usarlas sin internet. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" crossorigin href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Montserrat:wght@400;700&family=Roboto:wght@700&display=swap">
   <link rel="stylesheet" href="css/estilos.css">
   <script src="js/app.js" defer></script>
 </head>
@@ -22,7 +27,7 @@
 
   <!-- Íconos: se usan así → <svg class="ico"><use href="#ico-casa"/></svg> -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="ico-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="ico-menu" viewBox="0 0 26 18"><path d="M1 1h24M1 9h24M1 17h24"/></symbol>
     <symbol id="ico-casa" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
     <symbol id="ico-usuario" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></symbol>
     <symbol id="ico-ajustes" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
@@ -57,20 +62,22 @@
       <circle cx="48" cy="64" r="1.6" fill="#9b9b9b"/><circle cx="56" cy="64" r="1.6" fill="#9b9b9b"/>
     </symbol>
     <!-- Atajos de Inicio -->
-    <symbol id="ico-documento" viewBox="0 0 24 24"><rect x="1" y="3.8" width="22" height="16.5" rx="2"/><circle cx="7.4" cy="9.6" r="2.2"/><path d="M4.6 15.6c.3-2.1 1.4-3.3 2.8-3.3s2.5 1.2 2.8 3.3M12.8 10.4h6.7M12.8 13.8h2.8"/></symbol>
-    <symbol id="ico-auto" viewBox="0 0 24 24"><path d="M3.5 16.6h-1A1.5 1.5 0 0 1 1 15.1v-1.5c0-.9.6-1.6 1.5-1.8L6 11l3.8-4.4c.4-.4.9-.6 1.4-.6h10.3a1 1 0 0 1 1 1v8.6a1 1 0 0 1-1 1H20M7.9 16.6h7.7"/><circle cx="5.7" cy="16.6" r="2.2"/><circle cx="17.8" cy="16.6" r="2.2"/></symbol>
-    <symbol id="ico-trabajo" viewBox="0 0 24 24"><rect x="1" y="5.7" width="22" height="16.3" rx="2"/><path d="M7.5 5.7V3.8A1.5 1.5 0 0 1 9 2.3h6a1.5 1.5 0 0 1 1.5 1.5v1.9M1 9.9c3.3 2.5 7 3.8 11 3.8s7.7-1.3 11-3.8M10.3 12.8h3.4v2.4a1.7 1.7 0 0 1-3.4 0z"/></symbol>
-    <symbol id="ico-corazon" viewBox="0 0 24 24"><path d="M12 20.3c-.3 0-.6-.1-.8-.3L4 13.1A5.2 5.2 0 0 1 12 6.4a5.2 5.2 0 0 1 8 6.7L12.8 20c-.2.2-.5.3-.8.3z"/></symbol>
-    <symbol id="ico-pesos" viewBox="0 0 24 24"><rect x="1" y="3.8" width="22" height="16.5" rx="1.5"/><path d="M14.2 9.6c-.4-.9-1.2-1.4-2.2-1.4-1.3 0-2.2.7-2.2 1.8 0 2.5 4.6 1.4 4.6 3.9 0 1.1-.9 1.9-2.4 1.9-1.1 0-2-.5-2.4-1.4M12 7v1.2M12 15.8V17"/></symbol>
-    <symbol id="ico-tramite" viewBox="0 0 24 24"><path d="M5.5 2.5h8.8l4.6 4.6v12.4a1.5 1.5 0 0 1-1.5 1.5H5.5A1.5 1.5 0 0 1 4 19.5V4a1.5 1.5 0 0 1 1.5-1.5zM14.3 2.5v3.1a1.5 1.5 0 0 0 1.5 1.5h3.1M7.3 9.9h2.9M7.3 13.1h8M7.3 16.3h8"/></symbol>
-    <symbol id="ico-turno" viewBox="0 0 24 24"><path d="M5.3 1.5h2.6c0 3 1.8 5.5 4.1 5.5s4.1-2.5 4.1-5.5h2.6V17c0 1.1-.4 2-1.1 2.7l-2.6 2c-1.7 1.3-4.3 1.3-6 0l-2.6-2c-.7-.7-1.1-1.6-1.1-2.7z"/><text x="12" y="15" font-size="6.5" font-weight="500" text-anchor="middle" fill="currentColor" stroke="none" font-family="system-ui, sans-serif">01</text></symbol>
-    <symbol id="ico-hijos" viewBox="0 0 24 24"><circle cx="6.7" cy="11.7" r="2.8"/><path d="M1.8 20.7c0-2.9 2.2-5 4.9-5s4.9 2.1 4.9 5"/><circle cx="18.2" cy="7.1" r="3"/><path d="M13.4 16.3c0-2.9 2.1-5.1 4.8-5.1s4.8 2.2 4.8 5.1"/></symbol>
+    <symbol id="ico-documento" viewBox="-1.75 -1.7 27.5 27.5" stroke-width="1.19"><rect x="1" y="3.8" width="22" height="16.5" rx="2"/><circle cx="7.4" cy="9.6" r="2.2"/><path d="M4.6 15.6c.3-2.1 1.4-3.3 2.8-3.3s2.5 1.2 2.8 3.3M12.8 10.4h6.7M12.8 13.8h2.8"/></symbol>
+    <symbol id="ico-auto" viewBox="-1.69 -1.04 26.87 26.87" stroke-width="1.16"><path d="M3.5 16.6h-1A1.5 1.5 0 0 1 1 15.1v-1.5c0-.9.6-1.6 1.5-1.8L6 11l3.8-4.4c.4-.4.9-.6 1.4-.6h10.3a1 1 0 0 1 1 1v8.6a1 1 0 0 1-1 1H20M7.9 16.6h7.7"/><circle cx="5.7" cy="16.6" r="2.2"/><circle cx="17.8" cy="16.6" r="2.2"/></symbol>
+    <symbol id="ico-trabajo" viewBox="-1.3 -1.15 26.59 26.59" stroke-width="1.15"><rect x="1" y="5.7" width="22" height="16.3" rx="2"/><path d="M7.5 5.7V3.8A1.5 1.5 0 0 1 9 2.3h6a1.5 1.5 0 0 1 1.5 1.5v1.9M1 9.9c3.3 2.5 7 3.8 11 3.8s7.7-1.3 11-3.8M10.3 12.8h3.4v2.4a1.7 1.7 0 0 1-3.4 0z"/></symbol>
+    <symbol id="ico-corazon" viewBox="0.11 0.52 23.79 23.79" stroke-width="1.03"><path d="M12 20.3c-.3 0-.6-.1-.8-.3L4 13.1A5.2 5.2 0 0 1 12 6.4a5.2 5.2 0 0 1 8 6.7L12.8 20c-.2.2-.5.3-.8.3z"/></symbol>
+    <symbol id="ico-pesos" viewBox="-1.08 -1.03 26.16 26.16" stroke-width="1.13"><rect x="1" y="3.8" width="22" height="16.5" rx="1.5"/><path d="M14.2 9.6c-.4-.9-1.2-1.4-2.2-1.4-1.3 0-2.2.7-2.2 1.8 0 2.5 4.6 1.4 4.6 3.9 0 1.1-.9 1.9-2.4 1.9-1.1 0-2-.5-2.4-1.4M12 7v1.2M12 15.8V17"/></symbol>
+    <symbol id="ico-tramite" viewBox="0.08 0.38 22.74 22.74" stroke-width="0.98"><path d="M5.5 2.5h8.8l4.6 4.6v12.4a1.5 1.5 0 0 1-1.5 1.5H5.5A1.5 1.5 0 0 1 4 19.5V4a1.5 1.5 0 0 1 1.5-1.5zM14.3 2.5v3.1a1.5 1.5 0 0 0 1.5 1.5h3.1M7.3 9.9h2.9M7.3 13.1h8M7.3 16.3h8"/></symbol>
+    <symbol id="ico-turno" viewBox="-1.01 -0.93 26.03 26.03" stroke-width="1.12"><path d="M5.3 1.5h2.6c0 3 1.8 5.5 4.1 5.5s4.1-2.5 4.1-5.5h2.6V17c0 1.1-.4 2-1.1 2.7l-2.6 2c-1.7 1.3-4.3 1.3-6 0l-2.6-2c-.7-.7-1.1-1.6-1.1-2.7z"/><text x="12" y="15.4" font-size="8" font-weight="700" text-anchor="middle" fill="currentColor" stroke="none" font-family="Barlow, sans-serif">01</text></symbol>
+    <symbol id="ico-hijos" viewBox="-0.63 -0.63 26.06 26.06" stroke-width="1.13"><circle cx="6.7" cy="11.7" r="2.8"/><path d="M1.8 20.7c0-2.9 2.2-5 4.9-5s4.9 2.1 4.9 5"/><circle cx="18.2" cy="7.1" r="3"/><path d="M13.4 16.3c0-2.9 2.1-5.1 4.8-5.1s4.8 2.2 4.8 5.1"/></symbol>
     <symbol id="ico-calendario" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/><rect x="6.5" y="12.8" width="3" height="2.4" rx=".6"/><rect x="10.5" y="12.8" width="3" height="2.4" rx=".6"/><rect x="14.5" y="12.8" width="3" height="2.4" rx=".6"/><rect x="6.5" y="16.6" width="3" height="2.4" rx=".6"/><rect x="10.5" y="16.6" width="3" height="2.4" rx=".6"/><rect x="14.5" y="16.6" width="3" height="2.4" rx=".6"/></symbol>
     <symbol id="ico-huella" viewBox="0 0 24 24"><path d="M12 20.5c-3 0-5-1.5-5-3.5 0-2.5 2.5-5.5 5-5.5s5 3 5 5.5c0 2-2 3.5-5 3.5z"/><circle cx="5.5" cy="10.5" r="1.8"/><circle cx="9.3" cy="6.3" r="1.8"/><circle cx="14.7" cy="6.3" r="1.8"/><circle cx="18.5" cy="10.5" r="1.8"/></symbol>
-    <!-- Barra de abajo -->
-    <symbol id="ico-novedades" viewBox="0 0 24 24"><path d="M4 5.5h12v13a1.5 1.5 0 0 0 1.5 1.5h-12A1.5 1.5 0 0 1 4 18.5zM16 9h3.5v9.5a1.5 1.5 0 0 1-3 0M7 9h6M7 12.5h6M7 16h4"/></symbol>
+    <!-- Barra de abajo (rellenos, como en Mi Gestión) -->
+    <symbol id="ico-nav-inicio" viewBox="-2.03 -2.03 28.06 28.06"><path d="M12 2.6 1.8 11h3v10.4h5.6v-6.2h3.2v6.2h5.6V11h3z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="ico-novedades" viewBox="0.64 0.64 22.72 22.72"><path d="M3 4.4A1.4 1.4 0 0 1 4.4 3h11.2A1.4 1.4 0 0 1 17 4.4V21H4.4A1.4 1.4 0 0 1 3 19.6zM18.3 8.2H21v11.3a1.5 1.5 0 0 1-2.7.9z" fill="currentColor" stroke="none"/><g stroke="#fff" stroke-width="1.4" stroke-linecap="butt"><path d="M5.7 6h4.2v3.8H5.7z" fill="none"/><path d="M11.6 6.6h3M11.6 9.2h3M5.7 12.6h8.9M5.7 15.4h8.9M5.7 18.2h6"/></g></symbol>
     <symbol id="ico-telefono" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4-2 1.4a11 11 0 0 0 6.5 6.5l1.4-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16 16 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2zM14.5 3.5a6 6 0 0 1 6 6M14.5 7a2.5 2.5 0 0 1 2.5 2.5"/></symbol>
-    <symbol id="ico-tina" viewBox="0 0 24 24"><circle cx="12" cy="12.5" r="8"/><path d="M4.6 10c2.6-.3 5.2-1.8 6.9-4.2 1.3 2.3 4.2 3.9 7.8 4.2"/><circle cx="9.5" cy="13.5" r=".7" fill="currentColor"/><circle cx="14.5" cy="13.5" r=".7" fill="currentColor"/><path d="M10 16.5c1.2.8 2.8.8 4 0"/></symbol>
+    <symbol id="ico-nav-telefono" viewBox="0.79 -0.3 23.5 23.5" stroke-width="1.63"><path d="M6.6 3.5h2.6l1.4 4-2 1.4a11 11 0 0 0 6.5 6.5l1.4-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16 16 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2zM14.5 3.5a6 6 0 0 1 6 6M14.5 7a2.5 2.5 0 0 1 2.5 2.5"/></symbol>
+    <symbol id="ico-tina" viewBox="-0.29 0.21 24.57 24.57" stroke-width="1.7"><circle cx="12" cy="12.5" r="8.6"/><path d="M3.4 12.5a8.6 8.6 0 0 1 17.2 0c-3.6 0-6.7-1.6-8.6-4.1-1.9 2.5-5 4.1-8.6 4.1z" fill="currentColor"/><circle cx="9.3" cy="14.4" r=".8" fill="currentColor" stroke="none"/><circle cx="14.7" cy="14.4" r=".8" fill="currentColor" stroke="none"/><path d="M10.2 17.2c1.1.7 2.5.7 3.6 0"/></symbol>
   </svg>
 
   <!-- Barra de arriba (no se muestra en la pantalla de entrar).
@@ -135,9 +142,9 @@
 
   <!-- Barra de abajo (no se muestra en la pantalla de entrar) -->
   <nav class="nav-abajo" aria-label="Navegación principal">
-    <a href="#inicio"><svg class="ico"><use href="#ico-casa"/></svg><span>Inicio</span></a>
+    <a href="#inicio"><svg class="ico"><use href="#ico-nav-inicio"/></svg><span>Inicio</span></a>
     <a href="#novedades"><svg class="ico"><use href="#ico-novedades"/></svg><span>Novedades</span></a>
-    <a href="#telefonos"><svg class="ico"><use href="#ico-telefono"/></svg><span>Teléfonos Útiles</span></a>
+    <a href="#telefonos"><svg class="ico"><use href="#ico-nav-telefono"/></svg><span>Teléfonos</span></a>
     <a href="#guaubot"><svg class="ico"><use href="#ico-tina"/></svg><span>GuauBot</span></a>
   </nav>
 
@@ -185,12 +192,13 @@
 
       <!-- Turnos -->
       <div class="tarjeta turno">
-        <svg class="turno-ico" viewBox="0 0 48 64" aria-hidden="true" fill="none" stroke="#03a38b" stroke-width="2.4" stroke-linejoin="round">
-          <path d="M7 4h9a8 8 0 0 0 16 0h9v8c-3 2-5 5-5 8v38a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V20c0-3-2-6-5-8z"/>
-          <path d="M12 31h24"/>
-          <text x="24" y="47" fill="#03a38b" stroke="none" font-size="11" font-weight="700" text-anchor="middle" font-family="system-ui, sans-serif">001</text>
+        <!-- Pechera con número: viewBox = tamaño real en px -->
+        <svg class="turno-ico" viewBox="0 0 41 71.4" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M1.15 38.5V5Q1.15 1.15 5 1.15H8q3.2 0 3.6 3.35c.7 7.1 4.2 11.85 8.9 11.85s8.2-4.75 8.9-11.85Q29.8 1.15 33 1.15h3q3.85 0 3.85 3.85v33.5c0 6-7.75 6.3-7.75 11.7v8.45a11.6 11.6 0 0 1-23.2 0V50.2c0-5.4-7.75-5.7-7.75-11.7z"/>
+          <path d="M8.9 25.8h23.2M8.9 41h23.2"/>
+          <text x="20.5" y="38.3" fill="currentColor" stroke="none" font-size="16.3" font-weight="700" text-anchor="middle" font-family="Barlow, sans-serif">001</text>
         </svg>
-        <div>
+        <div class="turno-cuerpo">
           <p class="turno-texto">No tenés turnos programados.</p>
           <a class="boton boton-chico" href="#turnos">Sacá turno</a>
         </div>
@@ -199,14 +207,14 @@
       <!-- Credenciales -->
       <div class="credenciales">
         <p>¡Todas tus credenciales están al día!</p>
-        <svg class="credenciales-ico" viewBox="0 0 72 56" aria-hidden="true" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="15" width="58" height="37" rx="4" fill="#fff" stroke="#1d2939"/>
-          <rect x="9" y="22" width="15" height="19" rx="2" stroke="#03a38b"/>
-          <circle cx="16.5" cy="29" r="3" stroke="#03a38b"/>
-          <path d="M11.5 40c.7-3 2.6-4.5 5-4.5s4.3 1.5 5 4.5" stroke="#03a38b"/>
-          <path d="M30 27h24M30 33h24M30 39h15" stroke="#1d2939"/>
-          <circle cx="60" cy="13" r="10" fill="#03a38b" stroke="#fff"/>
-          <path d="m55.5 13 3 3 6-6" stroke="#fff" stroke-width="2.4"/>
+        <svg class="credenciales-ico" viewBox="0 0 56 53" aria-hidden="true" fill="none" stroke="#3d4548" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+          <rect x=".9" y="14.4" width="53.6" height="37.4" rx="4.2" fill="#fff" stroke-width="1.4"/>
+          <rect x="5.1" y="23.4" width="19" height="19" rx="2" fill="#d6eee2" stroke="none"/>
+          <circle cx="14.6" cy="30.4" r="3.3"/>
+          <path d="M8.9 41.6c.5-4.2 2.8-6.4 5.7-6.4s5.2 2.2 5.7 6.4M29.6 29.3h9M29.6 35.3h18.5M29.6 41h18.5"/>
+          <!-- Globito verde con el tilde -->
+          <path d="M39.1 25l-3.5-3.7a11 11 0 1 1 7 0z" fill="#1aa84e"/>
+          <path d="m34.3 11.4 3.2 3.2 6.2-6.4" stroke="#fff" stroke-width="2"/>
         </svg>
       </div>
 
@@ -225,18 +233,37 @@
 
       <!-- Carrusel de banners: se desliza de costado -->
       <div class="carrusel">
-        <article class="banner banner-verde">
-          <span class="banner-ico"><svg class="ico"><use href="#ico-calendario"/></svg></span>
+        <article class="banner banner-celeste">
+          <!-- Almanaque con el día tildado, sobre una mancha más clara -->
+          <svg class="banner-dibujo" viewBox="0 0 54 60" aria-hidden="true" fill="none" stroke="#4c5361" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path class="banner-mancha" d="M-8 31C-12 12 2-9 21-7c19 2 37 15 33 39-3 20-19 34-38 30C1 59-5 46-8 31z" stroke="none"/>
+            <rect x=".7" y="4.9" width="52.6" height="53.4" rx="3" fill="#fff"/>
+            <path d="M.7 18.6h52.6"/>
+            <rect x="10.3" y=".7" width="3.5" height="10" rx="1.75" fill="#e8b7b7" stroke-width="1.2"/>
+            <rect x="40.6" y=".7" width="3.5" height="10" rx="1.75" fill="#e8b7b7" stroke-width="1.2"/>
+            <rect x="5.3" y="25.9" width="10.9" height="10.9" rx="2.2"/>
+            <rect x="21.5" y="25.9" width="10.9" height="10.9" rx="2.2" fill="#ecc3c3"/>
+            <rect x="37.7" y="25.9" width="10.9" height="10.9" rx="2.2"/>
+            <rect x="5.3" y="41.5" width="10.9" height="10.9" rx="2.2"/>
+            <rect x="21.5" y="41.5" width="10.9" height="10.9" rx="2.2"/>
+            <rect x="37.7" y="41.5" width="10.9" height="10.9" rx="2.2"/>
+            <path d="m23.6 31.6 3 4.2 6.4-10" stroke="#362ec2" stroke-width="2.2"/>
+          </svg>
           <div>
-            <p class="banner-chico">Próximo feriado</p>
+            <p class="banner-chico banner-titulo">Próximo feriado</p>
             <p class="banner-grande">09 de noviembre</p>
             <p class="banner-chico"><strong>9 de noviembre.</strong> Visita del papa León XIV a la Argentina.</p>
           </div>
         </article>
         <article class="banner banner-rosa">
-          <span class="banner-ico"><svg class="ico"><use href="#ico-huella"/></svg></span>
+          <svg class="banner-dibujo" viewBox="0 0 54 60" aria-hidden="true" fill="none" stroke="#4c5361" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path class="banner-mancha" d="M-8 31C-12 12 2-9 21-7c19 2 37 15 33 39-3 20-19 34-38 30C1 59-5 46-8 31z" stroke="none"/>
+            <g transform="translate(3 6) scale(2)" fill="#fff" stroke-width=".7">
+              <path d="M12 20.5c-3 0-5-1.5-5-3.5 0-2.5 2.5-5.5 5-5.5s5 3 5 5.5c0 2-2 3.5-5 3.5z"/><circle cx="5.5" cy="10.5" r="1.8"/><circle cx="9.3" cy="6.3" r="1.8"/><circle cx="14.7" cy="6.3" r="1.8"/><circle cx="18.5" cy="10.5" r="1.8"/>
+            </g>
+          </svg>
           <div>
-            <p class="banner-chico">Recordatorio</p>
+            <p class="banner-chico banner-titulo">Recordatorio</p>
             <p class="banner-grande">Vacuna antirrábica</p>
             <p class="banner-chico">Revisá la libreta sanitaria de tu mascota.</p>
           </div>
