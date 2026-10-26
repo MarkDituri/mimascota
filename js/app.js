@@ -331,8 +331,9 @@ const esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 const btnInstalar = $('#btn-instalar');
 btnInstalar.hidden = !(esIOS && !estaInstalada());
 
+// Sin preventDefault(): así Chrome del celu muestra solo su cartel de
+// "Instalar" (como en perro-gato). El botón del menú es un atajo más.
 window.addEventListener('beforeinstallprompt', (evento) => {
-  evento.preventDefault();
   pedidoInstalar = evento;
   btnInstalar.hidden = false;
 });
@@ -340,8 +341,12 @@ window.addEventListener('beforeinstallprompt', (evento) => {
 btnInstalar.addEventListener('click', async () => {
   cerrarMenu();
   if (pedidoInstalar) {
-    pedidoInstalar.prompt();
-    await pedidoInstalar.userChoice;
+    try {
+      pedidoInstalar.prompt();
+      await pedidoInstalar.userChoice;
+    } catch {
+      aviso('Instalala desde el menú ⋮ de Chrome → "Instalar app".', 6000);
+    }
     pedidoInstalar = null; // se puede usar una sola vez
     btnInstalar.hidden = true;
   } else if (esIOS) {
