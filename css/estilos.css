@@ -1,0 +1,830 @@
+/* ==========================================================
+   estilos.css
+   Para cambiar los colores de toda la app, tocá las
+   variables de :root (y las del modo oscuro, más abajo).
+   ========================================================== */
+
+:root {
+  --marca: #04606d;           /* barra de arriba y cabecera de Entrar */
+  --marca-texto: #04606d;     /* la marca como color de letra (números de Teléfonos) */
+  --logo-mi: #64c4d4;         /* el "mi" del logo */
+  --acento: #02836f;          /* botones y banners (con letra blanca) */
+  --acento-hover: #026b5b;
+  --acento-texto: #02836f;    /* el acento cuando se usa como color de letra */
+  --sobre-acento: #ffffff;    /* letra encima del acento */
+  --verde: #03a38b;           /* dibujos e íconos */
+  --menta: #ade7cf;
+  --rosa: #e9bcbf;
+  --tinta: #101828;           /* íconos y textos de los atajos */
+  --icono: #717171;           /* íconos grises del menú */
+  --check: #6c8eb4;           /* tilde de "identidad validada" */
+  --indigo: #5446d6;          /* íconos de Documentos */
+  --pizarra: #3b5373;         /* botones con borde */
+
+  --fondo: #ededeb;
+  --superficie: #ffffff;      /* tarjetas, menú */
+  --texto: #1a1d1b;
+  --texto-suave: #5d6560;
+  --borde: #dfe3e0;
+  --error: #c0392b;
+
+  --radio: 14px;
+  --sombra: 0 1px 2px rgb(0 0 0 / .04), 0 6px 20px rgb(0 0 0 / .06);
+  --alto-barra: 56px;
+  --fuente: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  color-scheme: light;
+}
+
+/* Por defecto la app es clara. Oscuro solo si en Acerca de se elige
+   "Oscuro", o "Automático" y el sistema está en oscuro. */
+@media (prefers-color-scheme: dark) {
+  :root[data-tema="auto"] {
+    --marca-texto: #64c4d4;
+    --acento-texto: #4cc9ab;
+    --menta: #1d3d33;
+    --rosa: #4a2a2e;
+    --tinta: #e8ece9;
+    --icono: #9aa39e;
+    --indigo: #a5a8f0;
+    --pizarra: #a9bdd6;
+    --fondo: #121514;
+    --superficie: #1b1f1d;
+    --texto: #e8ece9;
+    --texto-suave: #9aa39e;
+    --borde: #2c322f;
+    --error: #ff7b6b;
+    --sombra: none;
+    color-scheme: dark;
+  }
+}
+
+/* Modo oscuro elegido a mano en Acerca de (mismos valores que arriba) */
+:root[data-tema="oscuro"] {
+  --marca-texto: #64c4d4;
+  --acento-texto: #4cc9ab;
+  --menta: #1d3d33;
+  --rosa: #4a2a2e;
+  --tinta: #e8ece9;
+  --icono: #9aa39e;
+  --indigo: #a5a8f0;
+  --pizarra: #a9bdd6;
+  --fondo: #121514;
+  --superficie: #1b1f1d;
+  --texto: #e8ece9;
+  --texto-suave: #9aa39e;
+  --borde: #2c322f;
+  --error: #ff7b6b;
+  --sombra: none;
+  color-scheme: dark;
+}
+
+
+/* ---------- Base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom); /* la rayita de abajo del iPhone */
+  font-family: var(--fuente);
+  font-size: 16px; /* 16px en los inputs evita que el iPhone haga zoom */
+  line-height: 1.5;
+  color: var(--texto);
+  background: var(--fondo);
+  overflow-x: clip; /* nada se sale de costado (ej: la pantalla cuando abre el menú) */
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3, p { margin: 0; }
+a { color: var(--acento-texto); }
+img, svg { display: block; max-width: 100%; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--acento-texto); outline-offset: 2px; }
+
+code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: .875em;
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: var(--fondo);
+}
+
+.ico {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* ---------- Barra de arriba ---------- */
+
+/* Tres columnas: menú | título o logo | avatar */
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  align-items: center;
+  min-height: calc(var(--alto-barra) + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) 8px 0;
+  background: var(--marca);
+  color: #fff;
+}
+.sin-barra .barra { display: none; }
+
+.barra-titulo {
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Subpantallas: flecha de volver + título a la izquierda + actualizar */
+.subpantalla #abrir-menu,
+.subpantalla .barra-avatar,
+body:not(.subpantalla) #volver,
+body:not(.subpantalla) #actualizar { display: none; }
+.subpantalla .barra-titulo { padding-left: 12px; font-size: 1.25rem; font-weight: 500; text-align: left; }
+#actualizar { justify-self: end; }
+
+.logo { font-size: 1.75rem; font-weight: 700; letter-spacing: -.02em; }
+.logo span { color: var(--logo-mi); }
+
+.barra-avatar { justify-self: end; width: 40px; height: 40px; margin-right: 4px; }
+
+/* Foto de perfil redonda con el tilde de "validado" */
+.foto { position: relative; display: block; flex: none; }
+.foto-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #cfcbca;
+}
+.foto-check {
+  position: absolute;
+  right: -4px;
+  bottom: -3px;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--check);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .2);
+}
+.foto-check .ico { width: 12px; height: 12px; stroke-width: 3.5; }
+
+.foto-grande { width: 84px; height: 84px; }
+.foto-grande .foto-check { right: -2px; bottom: 2px; width: 28px; height: 28px; }
+.foto-grande .foto-check .ico { width: 18px; height: 18px; stroke-width: 3; }
+
+/* Cartelito "Sin conexión" colgando de la barra */
+.offline .barra::after {
+  content: "Sin conexión";
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  transform: translateX(-50%);
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: .75rem;
+  background: #1a1d1b;
+}
+
+.icono-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+}
+.icono-btn:hover { background: rgb(255 255 255 / .12); }
+
+
+/* ---------- Menú (pantalla completa) ---------- */
+
+/* Tapa toda la pantalla menos la barra de abajo, y entra deslizándose */
+.menu {
+  position: fixed;
+  inset: 0 0 calc(64px + env(safe-area-inset-bottom)) 0;
+  z-index: 30;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--superficie);
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform .25s ease, visibility 0s .25s;
+}
+.menu-abierto .menu {
+  transform: none;
+  visibility: visible;
+  transition: transform .25s ease;
+}
+
+/* La pantalla de atrás se corre a la derecha a la par del menú (mismo tiempo y curva) */
+.barra,
+main { transition: transform .25s ease; }
+.menu-abierto .barra,
+.menu-abierto main { transform: translateX(100%); }
+
+.menu-cabecera {
+  padding: env(safe-area-inset-top) 8px 24px;
+  background: var(--marca);
+  color: #fff;
+}
+
+/* Igual que la barra de arriba: flecha | logo | (vacío) */
+.menu-arriba {
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  align-items: center;
+  min-height: var(--alto-barra);
+  text-align: center;
+}
+
+.menu-perfil {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 640px;
+  margin: 16px auto 0;
+  padding: 0 14px;
+}
+.menu-perfil div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  font-size: .9375rem;
+}
+.menu-perfil strong { font-size: 1.25rem; line-height: 1.25; }
+.menu-validada { opacity: .85; }
+
+.menu-lista { max-width: 640px; margin: 0 auto; padding: 12px 0 24px; }
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  min-height: 64px;
+  padding: 0 24px;
+  border: 0;
+  background: none;
+  color: var(--texto);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.menu-item:hover { background: var(--fondo); }
+.menu-item .ico { width: 30px; height: 30px; stroke-width: 1.5; color: var(--icono); }
+
+/* El "mi" de "Acerca de" hace de ícono */
+.menu-mi {
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+
+.menu-separador { margin: 6px 24px; border: 0; border-top: 1px solid var(--borde); }
+
+
+/* ---------- Barra de abajo ---------- */
+
+.nav-abajo {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 15;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  height: calc(64px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--superficie);
+  box-shadow: 0 -1px 0 var(--borde), 0 -4px 16px rgb(0 0 0 / .05);
+}
+.sin-barra .nav-abajo { display: none; }
+body:not(.sin-barra) { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+
+.nav-abajo a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--tinta);
+  font-size: clamp(.6875rem, 3.4vw, .8125rem); /* achica un poco en celus angostos */
+  text-decoration: none;
+}
+/* "Teléfonos Útiles" es más ancho que su columna: va en una línea y
+   ocupa el aire que dejan los textos cortos de al lado */
+.nav-abajo span { white-space: nowrap; }
+.nav-abajo .ico { width: 26px; height: 26px; }
+.nav-abajo a[aria-current="page"] { font-weight: 700; }
+.nav-abajo a[aria-current="page"] span {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+
+/* ---------- Pantallas ---------- */
+
+.pantalla {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px 32px;
+}
+
+.titulo { font-size: 1.5rem; font-weight: 700; letter-spacing: -.01em; }
+.subtitulo { margin-top: 4px; color: var(--texto-suave); }
+
+.nota {
+  font-size: .8125rem;
+  color: var(--texto-suave);
+  text-align: center;
+}
+
+
+/* ---------- Tarjetas ---------- */
+
+.tarjeta {
+  padding: 20px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+}
+.tarjeta h3 { font-size: 1rem; margin-bottom: 8px; }
+
+.lista { list-style: none; margin: 0; padding: 0; }
+.lista li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--borde);
+}
+.lista li:last-child { border-bottom: 0; padding-bottom: 0; }
+.lista span { color: var(--texto-suave); }
+.lista strong { font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+
+
+/* ---------- Formularios y botones ---------- */
+
+form.tarjeta { display: flex; flex-direction: column; gap: 14px; }
+
+.campo { display: block; }
+.campo span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: .875rem;
+  font-weight: 600;
+}
+.campo input,
+.campo select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: var(--fondo);
+  color: var(--texto);
+}
+.campo input:focus,
+.campo select:focus {
+  outline: 2px solid var(--acento-texto);
+  outline-offset: 0;
+  border-color: transparent;
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font-weight: 600;
+  text-decoration: none; /* por si el botón es un <a> */
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.boton:hover { background: var(--acento-hover); }
+.boton:active { transform: scale(.98); }
+
+.boton-secundario {
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  color: var(--texto);
+}
+.boton-secundario:hover { background: var(--fondo); }
+
+.error { font-size: .875rem; color: var(--error); }
+.error:empty { display: none; }
+
+
+/* ---------- Pantalla Entrar ---------- */
+
+.pantalla-entrar {
+  max-width: none;
+  min-height: 100dvh;
+  padding: 0;
+  gap: 0;
+}
+
+.entrar-cabecera {
+  padding: calc(56px + env(safe-area-inset-top)) 24px 80px;
+  text-align: center;
+  background: var(--marca);
+  color: #fff;
+}
+.entrar-cabecera h2 { font-size: 2rem; }
+.entrar-cabecera p { opacity: .85; }
+
+.entrar-logo {
+  margin: 0 auto 16px;
+  border-radius: 18px;
+  box-shadow: 0 0 0 4px rgb(255 255 255 / .2), 0 10px 28px rgb(0 0 0 / .25);
+}
+
+.entrar-form {
+  width: min(100% - 32px, 420px);
+  margin: -48px auto 32px;
+}
+
+
+/* ---------- Inicio ---------- */
+
+/* Todo centrado en una columna de hasta 520px; el saludo y el carrusel van de borde a borde */
+.pantalla-inicio {
+  max-width: none;
+  padding: 0 0 28px;
+  gap: 20px;
+}
+.pantalla-inicio > * {
+  width: min(100% - 32px, 520px);
+  margin-inline: auto;
+}
+
+.pantalla-inicio > .inicio-hero {
+  width: 100%;
+  padding: 4px 16px 52px;
+  background: var(--marca);
+  color: #fff;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Tarjeta de turnos: se monta sobre el saludo */
+.turno {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: -56px;
+  padding: 18px 20px;
+  border: 0;
+  border-radius: 12px;
+}
+.turno-ico { flex: none; width: 50px; height: 66px; }
+.turno-texto { font-size: 1.0625rem; line-height: 1.35; }
+
+.boton-chico {
+  width: auto;
+  min-height: 38px;
+  margin-top: 10px;
+  padding: 0 34px;
+  border-radius: 99px;
+  font-size: .9375rem;
+}
+
+/* Tarjeta verde de credenciales */
+.credenciales {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 114px;
+  padding: 20px 24px;
+  border-radius: 12px;
+  background: var(--menta);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.credenciales-ico { flex: none; width: 72px; height: 56px; }
+
+.seccion-titulo { margin-top: 26px; font-size: 1.25rem; font-weight: 700; }
+
+/* Grilla de 4 atajos por fila */
+.pantalla-inicio > .atajos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: -4px;
+}
+.atajo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  background: var(--superficie);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .08);
+  color: var(--tinta);
+  font-size: clamp(.6875rem, 3.3vw, .875rem);
+  font-weight: 500;
+  text-decoration: none;
+}
+.atajo .ico {
+  width: clamp(28px, 10.5vw, 44px);
+  height: clamp(28px, 10.5vw, 44px);
+  stroke-width: 1.25;
+  color: var(--indigo);
+}
+.atajo:active { transform: scale(.96); }
+
+/* Carrusel: los banners se deslizan y frenan uno por uno */
+.pantalla-inicio > .carrusel {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  padding-inline: max(16px, (100% - 520px) / 2);
+  scroll-padding-inline: max(16px, (100% - 520px) / 2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.carrusel::-webkit-scrollbar { display: none; }
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex: 0 0 min(88%, 460px);
+  min-height: 118px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+.banner-verde { background: var(--acento); color: #fff; }
+.banner-rosa { background: var(--rosa); color: var(--texto); }
+
+.banner-ico {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 60px;
+  height: 60px;
+}
+.banner-ico::before { /* manchita clara atrás del ícono */
+  content: "";
+  position: absolute;
+  inset: -16px -12px;
+  border-radius: 46% 54% 42% 58%;
+  background: rgb(255 255 255 / .12);
+}
+.banner-ico .ico { position: relative; width: 56px; height: 56px; stroke-width: 1.4; }
+
+.banner-chico { font-size: .875rem; line-height: 1.35; }
+.banner-grande { margin: 2px 0 4px; font-size: 1.25rem; font-weight: 700; line-height: 1.2; }
+
+
+/* ---------- Desplegables (Documentos) ---------- */
+
+/* Se abren y cierran de una, sin animación (como la app de referencia) */
+.desplegable {
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--superficie);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .1);
+}
+
+.desplegable summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 92px;
+  padding: 12px 16px 12px 12px;
+  list-style: none; /* saca el triangulito que trae <details> */
+  cursor: pointer;
+}
+.desplegable summary::-webkit-details-marker { display: none; }
+.desplegable[open] summary { border-bottom: 1px solid var(--borde); }
+
+/* Ícono + rayita vertical que lo separa del título */
+.desplegable-ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 72px;
+  height: 56px;
+  padding-right: 12px;
+  border-right: 1px solid #c7c7c7;
+  color: var(--indigo);
+}
+.desplegable-ico .ico { width: 48px; height: 36px; stroke-width: 1; }
+
+.desplegable-titulo { flex: 1; font-size: 1.1875rem; font-weight: 600; line-height: 1.25; }
+.desplegable-flecha { color: var(--icono); }
+.desplegable[open] .desplegable-flecha { transform: rotate(180deg); }
+
+.desplegable-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 16px 20px 20px;
+  line-height: 1.45;
+}
+
+.boton-borde {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: 8px 20px;
+  border: 1.5px solid var(--pizarra);
+  border-radius: 99px;
+  color: var(--pizarra);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+.boton-borde:active { background: var(--fondo); }
+
+.desplegable-pie {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px 16px;
+  border-top: 1px solid var(--borde);
+  color: var(--texto);
+  font-size: .9375rem;
+  text-decoration: none;
+}
+.desplegable-pie .ico { width: 34px; height: 34px; stroke-width: 1.5; color: var(--icono); }
+.desplegable-pie.fuente { flex-direction: column; align-items: flex-start; gap: 2px; }
+.desplegable-pie strong { color: var(--texto-suave); font-weight: 600; }
+
+
+/* ---------- Teléfonos útiles ---------- */
+
+.telefonos {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Tarjeta entera = link "tel:" → número | rayita | texto | ícono */
+.telefono {
+  display: grid;
+  grid-template-columns: 80px 1fr 24px;
+  align-items: center;
+  min-height: 86px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: var(--superficie);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .12), 0 2px 6px rgb(0 0 0 / .05);
+  color: var(--texto);
+  text-decoration: none;
+}
+.telefono:active { background: var(--fondo); }
+
+.telefono strong {
+  color: var(--marca-texto);
+  font-size: 2.375rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.telefono span {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 8px 0 18px;
+  border-left: 1px solid #c7c7c7;
+  font-size: .9375rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.telefono .ico { color: var(--marca-texto); }
+
+
+/* ---------- Perfil ---------- */
+
+.perfil-cabecera { display: flex; align-items: center; gap: 16px; }
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font-weight: 700;
+}
+.avatar-grande { width: 64px; height: 64px; font-size: 1.5rem; }
+
+
+/* ---------- Avisos ---------- */
+
+.aviso {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  z-index: 40;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #1a1d1b;
+  color: #fff;
+  font-size: .9375rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / .25);
+  transform: translateX(-50%);
+  animation: aviso .2s ease-out;
+}
+
+body:not(.sin-barra) .aviso { bottom: calc(76px + env(safe-area-inset-bottom)); } /* arriba de la barra de abajo */
+
+@keyframes aviso {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+}
+
+
+/* ---------- Cambio de pantalla deslizando ---------- */
+
+/* Al entrar a una subpantalla (data-volver) la nueva llega desde la derecha y la
+   anterior se va a la izquierda; al volver, al revés. Lo dispara animarCambio()
+   en app.js poniendo data-direccion en <html>. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: .25s;
+  animation-timing-function: ease;
+  mix-blend-mode: normal;
+}
+:root[data-direccion="adelante"]::view-transition-old(root) { animation-name: salir-izquierda; }
+:root[data-direccion="adelante"]::view-transition-new(root) { animation-name: entrar-derecha; }
+:root[data-direccion="atras"]::view-transition-old(root) { animation-name: salir-derecha; }
+:root[data-direccion="atras"]::view-transition-new(root) { animation-name: entrar-izquierda; }
+
+@keyframes salir-izquierda { to { transform: translateX(-100%); } }
+@keyframes entrar-derecha { from { transform: translateX(100%); } }
+@keyframes salir-derecha { to { transform: translateX(100%); } }
+@keyframes entrar-izquierda { from { transform: translateX(-100%); } }
+
+.nav-abajo { view-transition-name: nav-abajo; } /* la barra de abajo se queda quieta */
+
+
+/* Si el sistema pide menos movimiento, sacamos animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

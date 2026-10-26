@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>miMascota</title>
+  <meta name="description" content="Base de PWA hecha con HTML, CSS y JS.">
+
+  <!-- PWA: estas líneas son las que hacen que se pueda instalar -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#04606d">
+  <link rel="icon" href="img/icono.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="miMascota">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="stylesheet" href="css/estilos.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body class="sin-barra">
+
+  <!-- Íconos: se usan así → <svg class="ico"><use href="#ico-casa"/></svg> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ico-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="ico-casa" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="ico-usuario" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></symbol>
+    <symbol id="ico-ajustes" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
+    <symbol id="ico-instalar" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+    <symbol id="ico-salir" viewBox="0 0 24 24"><path d="M9 20H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3M16 16l4-4-4-4M20 12H10"/></symbol>
+    <symbol id="ico-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="ico-atras" viewBox="0 0 24 24"><path d="M20 12H4.5M10.5 6l-6 6 6 6"/></symbol>
+    <symbol id="ico-actualizar" viewBox="0 0 24 24"><path d="M19.5 12.5a7.5 7.5 0 1 1-2.2-5.8M19.5 3.5v4.3h-4.3"/></symbol>
+    <symbol id="ico-abajo" viewBox="0 0 24 24"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></symbol>
+    <symbol id="ico-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10.8v5.7"/><circle cx="12" cy="7.6" r=".5" fill="currentColor"/></symbol>
+    <!-- Documentos: credenciales (más anchas que altas, por eso viewBox 32×24) -->
+    <symbol id="ico-dni" viewBox="0 0 32 24"><rect x="1" y="1.5" width="30" height="21" rx="2.5"/><circle cx="9.8" cy="9.4" r="2.6"/><path d="M5.2 17.5c.3-2.6 2.2-4.3 4.6-4.3s4.3 1.7 4.6 4.3M17 7.8h6.4M17 12h10.2M17 16.1h10.2"/></symbol>
+    <symbol id="ico-certificado" viewBox="0 0 32 24"><rect x="1" y="1.5" width="30" height="21" rx="2.5"/><path d="M5.6 15.2c-.3-.9-.5-1.9-.5-3a4.9 4.9 0 0 1 9.8 0v.8M7.6 17.2c-.5-1.4-.7-2.9-.7-4.6a3.1 3.1 0 0 1 6.2 0v.9c0 1.3.2 2.5.6 3.6M10 12.6v1c0 1.6.3 3.1.9 4.4M14.9 15c0 .6.1 1.2.3 1.7"/><circle cx="22.7" cy="9.4" r="2.6"/><path d="M18.1 17.5c.3-2.6 2.2-4.3 4.6-4.3s4.3 1.7 4.6 4.3"/></symbol>
+    <symbol id="ico-licencia" viewBox="0 0 32 24"><rect x="1" y="1.5" width="30" height="21" rx="2.5"/><path d="M5.6 11.2l1-3.2c.2-.6.7-1 1.3-1h2.2c.6 0 1.1.4 1.3 1l1 3.2M3.8 13c0-1 .8-1.8 1.8-1.8h6.8c1 0 1.8.8 1.8 1.8v2.8H3.8zM4.9 15.8v1.4M13.1 15.8v1.4M17 7.6h7M17 12h10.4M17 16.1h10.4"/><circle cx="6" cy="13.5" r=".5" fill="currentColor"/><circle cx="12" cy="13.5" r=".5" fill="currentColor"/></symbol>
+    <!-- Opciones del menú -->
+    <symbol id="ico-personas" viewBox="0 0 24 24"><circle cx="8.5" cy="8.5" r="3.2"/><path d="M2.5 19.5c0-3.4 2.7-5.7 6-5.7s6 2.3 6 5.7"/><circle cx="16.5" cy="9.3" r="2.7"/><path d="M15.6 13.7c.3-.1.6-.1.9-.1 2.8 0 5 2 5 5"/></symbol>
+    <symbol id="ico-celular" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 5h3"/><circle cx="12" cy="15" r="2.7"/><path d="M12 13.7v2.6M10.7 15h2.6"/></symbol>
+    <symbol id="ico-candado" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><circle cx="12" cy="15" r="1.4"/><path d="M12 16.4v1.8"/></symbol>
+    <symbol id="ico-terminos" viewBox="0 0 24 24"><path d="M13 21H6.5A1.5 1.5 0 0 1 5 19.5v-15A1.5 1.5 0 0 1 6.5 3h8l4 4v4M8 8h5M8 11.5h7M8 15h3"/><circle cx="16.5" cy="16.5" r="2.8"/><path d="m18.5 18.5 2.5 2.5"/></symbol>
+    <!-- Foto de perfil por defecto (perro y gato) -->
+    <symbol id="foto-mascota" viewBox="0 0 80 80">
+      <ellipse cx="21" cy="36" rx="7" ry="14" transform="rotate(18 21 36)" fill="#9b9b9b"/>
+      <ellipse cx="47" cy="36" rx="7" ry="14" transform="rotate(-18 47 36)" fill="#9b9b9b"/>
+      <path d="M34 19c9.5 0 15 7.5 15 17v8c0 10.5-6.7 18-15 18s-15-7.5-15-18v-8c0-9.5 5.5-17 15-17z" fill="#adadad"/>
+      <path d="M18 80c2-11 8-17 16-17s14 6 16 17z" fill="#adadad"/>
+      <circle cx="28.5" cy="38" r="2.2" fill="#8a8a8a"/><circle cx="39.5" cy="38" r="2.2" fill="#8a8a8a"/>
+      <ellipse cx="34" cy="49" rx="4.2" ry="3" fill="#8a8a8a"/>
+      <g fill="#ebe8e7" stroke="#cfcbca" stroke-width="2">
+        <path d="M38 82c1.5-8 7-12.5 14-12.5S64.5 74 66 82z"/>
+        <path d="M41.5 60.5 42.5 47l8 7.5h3l8-7.5 1 13.5c1.5 2 2.5 4.3 2.5 7 0 6.5-5.5 10.5-13 10.5s-13-4-13-10.5c0-2.7 1-5 2.5-7z"/>
+      </g>
+      <circle cx="48" cy="64" r="1.6" fill="#9b9b9b"/><circle cx="56" cy="64" r="1.6" fill="#9b9b9b"/>
+    </symbol>
+    <!-- Atajos de Inicio -->
+    <symbol id="ico-documento" viewBox="0 0 24 24"><rect x="1" y="3.8" width="22" height="16.5" rx="2"/><circle cx="7.4" cy="9.6" r="2.2"/><path d="M4.6 15.6c.3-2.1 1.4-3.3 2.8-3.3s2.5 1.2 2.8 3.3M12.8 10.4h6.7M12.8 13.8h2.8"/></symbol>
+    <symbol id="ico-auto" viewBox="0 0 24 24"><path d="M3.5 16.6h-1A1.5 1.5 0 0 1 1 15.1v-1.5c0-.9.6-1.6 1.5-1.8L6 11l3.8-4.4c.4-.4.9-.6 1.4-.6h10.3a1 1 0 0 1 1 1v8.6a1 1 0 0 1-1 1H20M7.9 16.6h7.7"/><circle cx="5.7" cy="16.6" r="2.2"/><circle cx="17.8" cy="16.6" r="2.2"/></symbol>
+    <symbol id="ico-trabajo" viewBox="0 0 24 24"><rect x="1" y="5.7" width="22" height="16.3" rx="2"/><path d="M7.5 5.7V3.8A1.5 1.5 0 0 1 9 2.3h6a1.5 1.5 0 0 1 1.5 1.5v1.9M1 9.9c3.3 2.5 7 3.8 11 3.8s7.7-1.3 11-3.8M10.3 12.8h3.4v2.4a1.7 1.7 0 0 1-3.4 0z"/></symbol>
+    <symbol id="ico-corazon" viewBox="0 0 24 24"><path d="M12 20.3c-.3 0-.6-.1-.8-.3L4 13.1A5.2 5.2 0 0 1 12 6.4a5.2 5.2 0 0 1 8 6.7L12.8 20c-.2.2-.5.3-.8.3z"/></symbol>
+    <symbol id="ico-pesos" viewBox="0 0 24 24"><rect x="1" y="3.8" width="22" height="16.5" rx="1.5"/><path d="M14.2 9.6c-.4-.9-1.2-1.4-2.2-1.4-1.3 0-2.2.7-2.2 1.8 0 2.5 4.6 1.4 4.6 3.9 0 1.1-.9 1.9-2.4 1.9-1.1 0-2-.5-2.4-1.4M12 7v1.2M12 15.8V17"/></symbol>
+    <symbol id="ico-tramite" viewBox="0 0 24 24"><path d="M5.5 2.5h8.8l4.6 4.6v12.4a1.5 1.5 0 0 1-1.5 1.5H5.5A1.5 1.5 0 0 1 4 19.5V4a1.5 1.5 0 0 1 1.5-1.5zM14.3 2.5v3.1a1.5 1.5 0 0 0 1.5 1.5h3.1M7.3 9.9h2.9M7.3 13.1h8M7.3 16.3h8"/></symbol>
+    <symbol id="ico-turno" viewBox="0 0 24 24"><path d="M5.3 1.5h2.6c0 3 1.8 5.5 4.1 5.5s4.1-2.5 4.1-5.5h2.6V17c0 1.1-.4 2-1.1 2.7l-2.6 2c-1.7 1.3-4.3 1.3-6 0l-2.6-2c-.7-.7-1.1-1.6-1.1-2.7z"/><text x="12" y="15" font-size="6.5" font-weight="500" text-anchor="middle" fill="currentColor" stroke="none" font-family="system-ui, sans-serif">01</text></symbol>
+    <symbol id="ico-hijos" viewBox="0 0 24 24"><circle cx="6.7" cy="11.7" r="2.8"/><path d="M1.8 20.7c0-2.9 2.2-5 4.9-5s4.9 2.1 4.9 5"/><circle cx="18.2" cy="7.1" r="3"/><path d="M13.4 16.3c0-2.9 2.1-5.1 4.8-5.1s4.8 2.2 4.8 5.1"/></symbol>
+    <symbol id="ico-calendario" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/><rect x="6.5" y="12.8" width="3" height="2.4" rx=".6"/><rect x="10.5" y="12.8" width="3" height="2.4" rx=".6"/><rect x="14.5" y="12.8" width="3" height="2.4" rx=".6"/><rect x="6.5" y="16.6" width="3" height="2.4" rx=".6"/><rect x="10.5" y="16.6" width="3" height="2.4" rx=".6"/><rect x="14.5" y="16.6" width="3" height="2.4" rx=".6"/></symbol>
+    <symbol id="ico-huella" viewBox="0 0 24 24"><path d="M12 20.5c-3 0-5-1.5-5-3.5 0-2.5 2.5-5.5 5-5.5s5 3 5 5.5c0 2-2 3.5-5 3.5z"/><circle cx="5.5" cy="10.5" r="1.8"/><circle cx="9.3" cy="6.3" r="1.8"/><circle cx="14.7" cy="6.3" r="1.8"/><circle cx="18.5" cy="10.5" r="1.8"/></symbol>
+    <!-- Barra de abajo -->
+    <symbol id="ico-novedades" viewBox="0 0 24 24"><path d="M4 5.5h12v13a1.5 1.5 0 0 0 1.5 1.5h-12A1.5 1.5 0 0 1 4 18.5zM16 9h3.5v9.5a1.5 1.5 0 0 1-3 0M7 9h6M7 12.5h6M7 16h4"/></symbol>
+    <symbol id="ico-telefono" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4-2 1.4a11 11 0 0 0 6.5 6.5l1.4-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16 16 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2zM14.5 3.5a6 6 0 0 1 6 6M14.5 7a2.5 2.5 0 0 1 2.5 2.5"/></symbol>
+    <symbol id="ico-tina" viewBox="0 0 24 24"><circle cx="12" cy="12.5" r="8"/><path d="M4.6 10c2.6-.3 5.2-1.8 6.9-4.2 1.3 2.3 4.2 3.9 7.8 4.2"/><circle cx="9.5" cy="13.5" r=".7" fill="currentColor"/><circle cx="14.5" cy="13.5" r=".7" fill="currentColor"/><path d="M10 16.5c1.2.8 2.8.8 4 0"/></symbol>
+  </svg>
+
+  <!-- Barra de arriba (no se muestra en la pantalla de entrar).
+       En las subpantallas (data-volver) el menú y el avatar se cambian por "volver" y "actualizar". -->
+  <header class="barra">
+    <button class="icono-btn" id="abrir-menu" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
+      <svg class="ico"><use href="#ico-menu"/></svg>
+    </button>
+    <button class="icono-btn" id="volver" aria-label="Volver">
+      <svg class="ico"><use href="#ico-atras"/></svg>
+    </button>
+    <h1 class="barra-titulo">
+      <span class="logo" id="barra-logo"><span>mi</span>Mascota</span>
+      <span id="barra-texto"></span>
+    </h1>
+    <a class="barra-avatar foto" href="#perfil" aria-label="Mi perfil">
+      <svg class="foto-img"><use href="#foto-mascota"/></svg>
+      <span class="foto-check"><svg class="ico"><use href="#ico-check"/></svg></span>
+    </a>
+    <button class="icono-btn" id="actualizar" aria-label="Actualizar">
+      <svg class="ico"><use href="#ico-actualizar"/></svg>
+    </button>
+  </header>
+
+  <!-- Menú: tapa toda la pantalla menos la barra de abajo.
+       Para sumar una opción, copiá un <a class="menu-item">. -->
+  <nav class="menu" id="menu" aria-label="Menú principal">
+    <div class="menu-cabecera">
+      <div class="menu-arriba">
+        <button class="icono-btn" id="cerrar-menu" aria-label="Cerrar menú">
+          <svg class="ico"><use href="#ico-atras"/></svg>
+        </button>
+        <span class="logo"><span>mi</span>Mascota</span>
+      </div>
+      <div class="menu-perfil">
+        <span class="foto foto-grande">
+          <svg class="foto-img"><use href="#foto-mascota"/></svg>
+          <span class="foto-check"><svg class="ico"><use href="#ico-check"/></svg></span>
+        </span>
+        <div>
+          <strong id="menu-nombre"></strong>
+          <span>Chip ID: <span id="menu-chip"></span></span>
+          <span class="menu-validada">Identidad validada</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-lista">
+      <a class="menu-item" href="#perfil"><svg class="ico"><use href="#ico-usuario"/></svg>Mi mascota</a>
+      <a class="menu-item" href="#hijos"><svg class="ico"><use href="#ico-personas"/></svg>Hijos/as asociados</a>
+      <a class="menu-item" href="#servicios"><svg class="ico"><use href="#ico-celular"/></svg>Suscribir servicios</a>
+      <hr class="menu-separador">
+      <a class="menu-item" href="#seguridad"><svg class="ico"><use href="#ico-candado"/></svg>Seguridad y privacidad</a>
+      <a class="menu-item" href="#terminos"><svg class="ico"><use href="#ico-terminos"/></svg>Términos y condiciones</a>
+      <a class="menu-item" href="#acerca"><span class="ico menu-mi">mi</span>Acerca de</a>
+      <hr class="menu-separador">
+      <button class="menu-item" id="btn-instalar" hidden><svg class="ico"><use href="#ico-instalar"/></svg>Instalar app</button>
+      <button class="menu-item" id="btn-salir"><svg class="ico"><use href="#ico-salir"/></svg>Cerrar sesión</button>
+      <a class="menu-item" href="#inicio"><svg class="ico"><use href="#ico-casa"/></svg>Volver al inicio</a>
+    </div>
+  </nav>
+
+  <!-- Barra de abajo (no se muestra en la pantalla de entrar) -->
+  <nav class="nav-abajo" aria-label="Navegación principal">
+    <a href="#inicio"><svg class="ico"><use href="#ico-casa"/></svg><span>Inicio</span></a>
+    <a href="#novedades"><svg class="ico"><use href="#ico-novedades"/></svg><span>Novedades</span></a>
+    <a href="#telefonos"><svg class="ico"><use href="#ico-telefono"/></svg><span>Teléfonos Útiles</span></a>
+    <a href="#guaubot"><svg class="ico"><use href="#ico-tina"/></svg><span>GuauBot</span></a>
+  </nav>
+
+  <!-- ======================================================
+       PANTALLAS
+       Cada <section data-pantalla="nombre"> es una pantalla.
+       Se abre con un link a "#nombre" (ej: <a href="#perfil">).
+       data-titulo  → lo que dice la barra de arriba
+       data-logo    → en la barra va el logo en vez del título
+       data-volver  → es una subpantalla: tiene flecha para volver a esa
+                      pantalla y entra deslizándose desde la derecha
+       data-publica → se puede ver sin haber entrado
+       ====================================================== -->
+  <main>
+
+    <!-- ENTRAR -->
+    <section class="pantalla pantalla-entrar" data-pantalla="entrar" data-titulo="Entrar" data-publica hidden>
+      <div class="entrar-cabecera">
+        <img class="entrar-logo" src="img/icono.svg" alt="" width="72" height="72">
+        <h2 class="logo"><span>mi</span>Mascota</h2>
+        <p>Entrá para continuar</p>
+      </div>
+
+      <form class="tarjeta entrar-form" id="form-entrar" novalidate>
+        <label class="campo">
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" inputmode="email" placeholder="vos@ejemplo.com">
+        </label>
+        <label class="campo">
+          <span>Contraseña</span>
+          <input type="password" name="contrasena" autocomplete="current-password">
+        </label>
+        <p class="error" id="error-entrar" role="alert"></p>
+        <button class="boton" type="submit">Entrar</button>
+        <p class="nota">Login de prueba: cualquier email y una contraseña de 4 o más caracteres.</p>
+      </form>
+    </section>
+
+    <!-- INICIO -->
+    <section class="pantalla pantalla-inicio" data-pantalla="inicio" data-titulo="Inicio" data-logo hidden>
+      <!-- Saludo (sigue el color de la barra) -->
+      <div class="inicio-hero">
+        <p id="saludo">¡Hola!</p>
+      </div>
+
+      <!-- Turnos -->
+      <div class="tarjeta turno">
+        <svg class="turno-ico" viewBox="0 0 48 64" aria-hidden="true" fill="none" stroke="#03a38b" stroke-width="2.4" stroke-linejoin="round">
+          <path d="M7 4h9a8 8 0 0 0 16 0h9v8c-3 2-5 5-5 8v38a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V20c0-3-2-6-5-8z"/>
+          <path d="M12 31h24"/>
+          <text x="24" y="47" fill="#03a38b" stroke="none" font-size="11" font-weight="700" text-anchor="middle" font-family="system-ui, sans-serif">001</text>
+        </svg>
+        <div>
+          <p class="turno-texto">No tenés turnos programados.</p>
+          <a class="boton boton-chico" href="#turnos">Sacá turno</a>
+        </div>
+      </div>
+
+      <!-- Credenciales -->
+      <div class="credenciales">
+        <p>¡Todas tus credenciales están al día!</p>
+        <svg class="credenciales-ico" viewBox="0 0 72 56" aria-hidden="true" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="15" width="58" height="37" rx="4" fill="#fff" stroke="#1d2939"/>
+          <rect x="9" y="22" width="15" height="19" rx="2" stroke="#03a38b"/>
+          <circle cx="16.5" cy="29" r="3" stroke="#03a38b"/>
+          <path d="M11.5 40c.7-3 2.6-4.5 5-4.5s4.3 1.5 5 4.5" stroke="#03a38b"/>
+          <path d="M30 27h24M30 33h24M30 39h15" stroke="#1d2939"/>
+          <circle cx="60" cy="13" r="10" fill="#03a38b" stroke="#fff"/>
+          <path d="m55.5 13 3 3 6-6" stroke="#fff" stroke-width="2.4"/>
+        </svg>
+      </div>
+
+      <!-- Atajos: cada uno abre la pantalla de su href -->
+      <h2 class="seccion-titulo">¿Qué necesitás hoy?</h2>
+      <div class="atajos">
+        <a class="atajo" href="#documentos"><svg class="ico"><use href="#ico-documento"/></svg>Documentos</a>
+        <a class="atajo" href="#vehiculos"><svg class="ico"><use href="#ico-auto"/></svg>Vehículos</a>
+        <a class="atajo" href="#trabajo"><svg class="ico"><use href="#ico-trabajo"/></svg>Trabajo</a>
+        <a class="atajo" href="#salud"><svg class="ico"><use href="#ico-corazon"/></svg>Salud</a>
+        <a class="atajo" href="#cobros"><svg class="ico"><use href="#ico-pesos"/></svg>Cobros</a>
+        <a class="atajo" href="#tramites"><svg class="ico"><use href="#ico-tramite"/></svg>Trámites</a>
+        <a class="atajo" href="#turnos"><svg class="ico"><use href="#ico-turno"/></svg>Turnos</a>
+        <a class="atajo" href="#hijos"><svg class="ico"><use href="#ico-hijos"/></svg>Hijos</a>
+      </div>
+
+      <!-- Carrusel de banners: se desliza de costado -->
+      <div class="carrusel">
+        <article class="banner banner-verde">
+          <span class="banner-ico"><svg class="ico"><use href="#ico-calendario"/></svg></span>
+          <div>
+            <p class="banner-chico">Próximo feriado</p>
+            <p class="banner-grande">09 de noviembre</p>
+            <p class="banner-chico"><strong>9 de noviembre.</strong> Visita del papa León XIV a la Argentina.</p>
+          </div>
+        </article>
+        <article class="banner banner-rosa">
+          <span class="banner-ico"><svg class="ico"><use href="#ico-huella"/></svg></span>
+          <div>
+            <p class="banner-chico">Recordatorio</p>
+            <p class="banner-grande">Vacuna antirrábica</p>
+            <p class="banner-chico">Revisá la libreta sanitaria de tu mascota.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- DOCUMENTOS (se abre desde el atajo "Documentos" de Inicio)
+         Cada <details> es un desplegable: se abre y se cierra solo, sin JS. -->
+    <section class="pantalla" data-pantalla="documentos" data-titulo="Mascotas" data-volver="inicio" hidden>
+
+      <details class="desplegable">
+        <summary>
+          <span class="desplegable-ico"><svg class="ico"><use href="#ico-dni"/></svg></span>
+          <span class="desplegable-titulo">DNI de mascota</span>
+          <svg class="ico desplegable-flecha"><use href="#ico-abajo"/></svg>
+        </summary>
+        <div class="desplegable-cuerpo">
+          <p>Recordá que podés registrar y solicitar el DNI para tu mascota y tenerlo disponible en la App.</p>
+          <a class="boton-borde" href="#solicitar-dni">Solicitar DNI Digital Mascota</a>
+        </div>
+        <a class="desplegable-pie" href="#extravio">
+          <svg class="ico"><use href="#ico-info"/></svg>Cambio de datos o extravío.
+        </a>
+      </details>
+
+      <details class="desplegable">
+        <summary>
+          <span class="desplegable-ico"><svg class="ico"><use href="#ico-certificado"/></svg></span>
+          <span class="desplegable-titulo">Certificado de registro</span>
+          <svg class="ico desplegable-flecha"><use href="#ico-abajo"/></svg>
+        </summary>
+        <div class="desplegable-cuerpo">
+          <p>Recordá que podés solicitar el certificado con tu cuenta de Mi Mascota.</p>
+          <a class="boton-borde" href="#solicitar-certificado">Solicitar certificado de registro</a>
+        </div>
+        <p class="desplegable-pie fuente">Datos suministrados por <strong>Registro Nacional de Mascotas</strong></p>
+      </details>
+
+      <details class="desplegable">
+        <summary>
+          <span class="desplegable-ico"><svg class="ico"><use href="#ico-licencia"/></svg></span>
+          <span class="desplegable-titulo">Licencia de tenencia responsable</span>
+          <svg class="ico desplegable-flecha"><use href="#ico-abajo"/></svg>
+        </summary>
+        <div class="desplegable-cuerpo">
+          <p>Recordá que podés tramitar la licencia de tenencia responsable y tenerla siempre a mano en la App.</p>
+          <a class="boton-borde" href="#solicitar-licencia">Solicitar licencia</a>
+        </div>
+        <p class="desplegable-pie fuente">Datos suministrados por <strong>Registro Nacional de Mascotas</strong></p>
+      </details>
+
+    </section>
+
+    <!-- TELÉFONOS ÚTILES (botón del medio de la barra de abajo)
+         Cada tarjeta es un link "tel:": en el celu, tocarla abre el
+         teclado de llamadas con el número ya cargado.
+         Para sumar uno, copiá un <li> y cambiá el número en los dos lugares. -->
+    <section class="pantalla" data-pantalla="telefonos" data-titulo="Teléfonos útiles" data-logo hidden>
+      <ul class="telefonos">
+        <li><a class="telefono" href="tel:911"><strong>911</strong><span>Central de emergencias nacional</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:107"><strong>107</strong><span>Emergencias Médicas</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:144"><strong>144</strong><span>Víctimas de violencia</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:102"><strong>102</strong><span>La línea de los chicos</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:103"><strong>103</strong><span>Defensa Civil</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:106"><strong>106</strong><span>Emergencia Náutica</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:134"><strong>134</strong><span>Denunciá delitos y extorsiones</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:135"><strong>135</strong><span>Asistencia al Suicida</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:141"><strong>141</strong><span>Ayuda Sedronar</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:142"><strong>142</strong><span>Menores extraviados</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:145"><strong>145</strong><span>Denuncia de trata</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+        <li><a class="telefono" href="tel:149"><strong>149</strong><span>Víctimas de delitos</span><svg class="ico"><use href="#ico-telefono"/></svg></a></li>
+      </ul>
+    </section>
+
+    <!-- PERFIL -->
+    <section class="pantalla" data-pantalla="perfil" data-titulo="Perfil" hidden>
+      <div class="tarjeta perfil-cabecera">
+        <div class="avatar avatar-grande" id="perfil-avatar"></div>
+        <div>
+          <h2 class="titulo" id="perfil-titulo"></h2>
+          <p class="subtitulo" id="perfil-email"></p>
+        </div>
+      </div>
+
+      <form class="tarjeta" id="form-perfil">
+        <label class="campo">
+          <span>Nombre</span>
+          <input name="nombre" autocomplete="name" required>
+        </label>
+        <button class="boton" type="submit">Guardar</button>
+      </form>
+    </section>
+
+    <!-- ACERCA DE (tema, estado de la app y borrar caché) -->
+    <section class="pantalla" data-pantalla="acerca" data-titulo="Acerca de" hidden>
+      <div class="tarjeta">
+        <label class="campo">
+          <span>Tema</span>
+          <select id="tema">
+            <option value="claro">Claro</option>
+            <option value="oscuro">Oscuro</option>
+            <option value="auto">Automático (como el sistema)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Estado de la app</h3>
+        <ul class="lista">
+          <li><span>Conexión</span><strong id="estado-conexion">—</strong></li>
+          <li><span>Abierta como</span><strong id="estado-modo">—</strong></li>
+          <li><span>Service worker</span><strong id="estado-sw">—</strong></li>
+          <li><span>Caché</span><strong id="estado-cache">—</strong></li>
+        </ul>
+      </div>
+
+      <button class="boton boton-secundario" id="btn-limpiar" type="button">Borrar caché y recargar</button>
+      <p class="nota">Sirve mientras desarrollás, si la app te muestra una versión vieja.</p>
+    </section>
+
+  </main>
+
+  <!-- Cartelito de avisos (lo maneja la función aviso() de app.js) -->
+  <div class="aviso" id="aviso" role="status" aria-live="polite" hidden></div>
+
+  <noscript><p class="nota">Esta app necesita JavaScript activado.</p></noscript>
+</body>
+</html>
