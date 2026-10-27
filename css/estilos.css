@@ -720,11 +720,14 @@ form.tarjeta { display: flex; flex-direction: column; gap: 14px; }
 
 
 /* ---------- Teléfonos útiles ---------- */
+/* Medidas sacadas de la captura de «Mi Gestión» (pantalla de 408px de ancho) */
+
+.pantalla-telefonos { padding: 16.8px 17px 32px; }
 
 .telefonos {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12.55px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -733,38 +736,39 @@ form.tarjeta { display: flex; flex-direction: column; gap: 14px; }
 /* Tarjeta entera = link "tel:" → número | rayita | texto | ícono */
 .telefono {
   display: grid;
-  grid-template-columns: 80px 1fr 24px;
+  grid-template-columns: 79.2px 1fr 16.6px;
   align-items: center;
-  min-height: 86px;
-  padding: 12px 18px;
-  border-radius: 10px;
+  min-height: 85px;
+  padding: 0 19.4px 0 17px;
+  border-radius: 8px;
   background: var(--superficie);
-  box-shadow: 0 1px 3px rgb(0 0 0 / .12), 0 2px 6px rgb(0 0 0 / .05);
+  box-shadow: 0 1px 4px rgb(0 0 0 / .14);
   color: var(--texto);
   text-decoration: none;
 }
 .telefono:active { background: var(--fondo); }
 
+/* El número y el texto quedan apenas más abajo del centro, como en la referencia */
 .telefono strong {
+  margin-top: 5.2px;
   color: var(--marca-texto);
-  font-size: 2.375rem;
+  font-size: 38px;
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -.02em;
 }
 
 .telefono span {
   display: flex;
   align-items: center;
-  min-height: 44px;
-  padding: 0 8px 0 18px;
-  border-left: 1px solid #c7c7c7;
-  font-size: .9375rem;
+  min-height: 41.5px;
+  padding: 4.7px 24px 0 16.8px; /* a la derecha deja aire: "Central de emergencias nacional" baja en dos renglones */
+  border-left: 1px solid #cdcdcd;
+  font-size: 15px;
   font-weight: 500;
-  line-height: 1.25;
+  line-height: 17.8px;
 }
 
-.telefono .ico { color: var(--marca-texto); }
+.telefono .ico { width: 16.6px; height: 16.6px; margin-top: 1.2px; overflow: visible; color: #8b8b8b; }
 
 
 /* ---------- Perfil ---------- */
